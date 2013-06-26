@@ -63,10 +63,11 @@ class Form {
 		// On vérifie dabord que le client n'a pas déjà répondu au formulaire
 		if (!$this->checkAlreadySubmit()) {
 			if (!is_null($idProp)) {
+				$time = time();
 				$req = Form::$pdo->prepare("INSERT INTO form_entry VALUES (:id_prop, :ip, :time)");
 				$req->bindParam(':id_prop', $idProp);
 				$req->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
-				$req->bindParam(':time', time());
+				$req->bindParam(':time', $time);
 				if ($req->execute()) {
 					return array("type" => "success", "message" => "Votre réponse au formulaire a bien été enregistré.");
 				} else {
@@ -80,6 +81,22 @@ class Form {
 	}
 
 	/**
+	 * Retourne une liste de Sondage triée par date de création
+	 */
+	public static function getLastForm($nb){
+		$listForm = array();
+		$req = Form::$pdo->prepare("SELECT * FROM form_name fp ORDER BY fp.date DESC LIMIT :nb");
+		$req->bindValue(':nb', $nb, PDO::PARAM_INT);
+		$req->setFetchMode(PDO::FETCH_ASSOC);
+		$req->execute();
+		// Ajoute les propositions à l'objet Formulaire
+		while ($row = $req->fetch()) {
+			$listForm[] = new Form($row['id'], $row['nom'], $row['question'], $row['date']);
+		}
+		return $listForm;
+	}
+
+	/**
 	 * Permet de récupérer un Formulaire par ID
 	 */
 	public static function getForm($id){
@@ -90,26 +107,35 @@ class Form {
 			$req->execute();
 			$req->setFetchMode(PDO::FETCH_ASSOC);
 			$data = $req->fetch();
-			$form = new Form($data['id'], $data['nom'], $data['question'], $data['date']);
-			// Récupère les propositions du Formualaire
-			$req = Form::$pdo->prepare("SELECT * FROM form_proposition
-										WHERE id_form = :id_form");
-			$req->bindValue(':id_form', $form->getId(), PDO::PARAM_INT);
-			$req->setFetchMode(PDO::FETCH_ASSOC);
-			$req->execute();
-			// Ajoute les propositions à l'objet Formulaire
-			while ($row = $req->fetch()) {
-				// Pour chaque réponse, on récupère les réponses associées
-				$reqProp = Form::$pdo->prepare("SELECT * FROM form_entry
-											WHERE id_prop = :id_prop");
-				$reqProp->bindValue(':id_prop', $row['id_proposition'], PDO::PARAM_INT);
-				$reqProp->setFetchMode(PDO::FETCH_ASSOC);
-				$reqProp->execute();
-				$listEntry = $reqProp->fetchAll();
-				// On ajoute au Formulaire
-				$form->addProposition($row, $listEntry);
+			if ($data != false) {
+				$form = new Form($data['id'], $data['nom'], $data['question'], $data['date']);
+				Form::hydrateForm($form);
+				return $form;
 			}
-			return $form;
+		}
+	}
+
+	/**
+	 * Permet d'hydrater l'objet
+	 */
+	public static function hydrateForm($form) {
+		// Récupère les propositions du Formualaire
+		$req = Form::$pdo->prepare("SELECT * FROM form_proposition
+									WHERE id_form = :id_form");
+		$req->bindValue(':id_form', $form->getId(), PDO::PARAM_INT);
+		$req->setFetchMode(PDO::FETCH_ASSOC);
+		$req->execute();
+		// Ajoute les propositions à l'objet Formulaire
+		while ($row = $req->fetch()) {
+			// Pour chaque réponse, on récupère les réponses associées
+			$reqProp = Form::$pdo->prepare("SELECT * FROM form_entry
+										WHERE id_prop = :id_prop");
+			$reqProp->bindValue(':id_prop', $row['id_proposition'], PDO::PARAM_INT);
+			$reqProp->setFetchMode(PDO::FETCH_ASSOC);
+			$reqProp->execute();
+			$listEntry = $reqProp->fetchAll();
+			// On ajoute au Formulaire
+			$form->addProposition($row, $listEntry);
 		}
 	}
 

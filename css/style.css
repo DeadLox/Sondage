@@ -1,7 +1,15 @@
 body {
 	background: url('../img/fabric_of_squares_gray.png');
 }
-/* ---- LOGIN ---- */
+
+/* ---- NavBar Form ---- */
+.navbar-form {
+	float:right;
+}
+.navbar-form .btn {
+	margin-top:10px;
+}
+/* ---- Form ---- */
 .form {
 	width:500px;
 	height:auto;
@@ -25,14 +33,11 @@ body {
 	margin:0;
 }
 .form ul {
+	margin: 0 25px;
 	list-style-type: none;
 }
 .form ul li input[type="radio"] {
 	vertical-align: top;
-}
-.form .btn {
-	display:block;
-	margin:20px auto 0 auto;
 }
 .progress.active .bar {
 	font-weight: bold;
