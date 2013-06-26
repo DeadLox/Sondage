@@ -61,7 +61,7 @@ if (isset($_POST) && !empty($_POST)) {
 					<li>
 						<label><?php echo $proposition['titre']; ?></label>
 					    <div class="progress progress-striped active">
-					    	<div class="bar" style="width: <?php echo $form->getPropositionPercent($proposition['nbReponse']); ?>%;"><?php echo ($proposition['nbReponse'] > 0)? $proposition['nbReponse'] : "" ; ?></div>
+					    	<div class="bar" data-width="<?php echo $form->getPropositionPercent($proposition['nbReponse']); ?>"><?php echo ($proposition['nbReponse'] > 0)? $proposition['nbReponse'] : "" ; ?></div>
 					    </div>
 					</li>
 				<?php } ?>
@@ -76,6 +76,14 @@ if (isset($_POST) && !empty($_POST)) {
 	                </ul>
               	</div>
           		-->
+          		<script type="text/javascript">
+          			$(document).ready(function(){
+          				$('.progress .bar').each(function(){
+          					var finalWidth = $(this).data('width');
+          					$(this).animate({"width" : finalWidth+"%"});
+          				});
+          			})
+          		</script>
 			<?php } ?>
 		</div>
 	</div>
