@@ -97,6 +97,21 @@ class Form {
 	}
 
 	/**
+	 * Retourne une liste de Sondage triée par nombre de vue
+	 */
+	public static function getBestForm($nb){
+		$listForm = array();
+		$req = Form::$pdo->prepare("SELECT * FROM form_name fp ORDER BY fp.date DESC LIMIT :nb");
+		$req->bindValue(':nb', $nb, PDO::PARAM_INT);
+		$req->setFetchMode(PDO::FETCH_ASSOC);
+		$req->execute();
+		// Ajoute les propositions à l'objet Formulaire
+		while ($row = $req->fetch()) {
+			$listForm[] = new Form($row['id'], $row['nom'], $row['question'], $row['date']);
+		}
+		return $listForm;
+	}
+	/**
 	 * Permet de récupérer un Formulaire par ID
 	 */
 	public static function getForm($id){

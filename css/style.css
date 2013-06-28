@@ -2,6 +2,15 @@ body {
 	background: url('../img/fabric_of_squares_gray.png');
 }
 
+.navbar-small .navbar-inner {
+	min-height:auto;
+	height:30px;
+	margin-bottom:0;
+}
+.navbar-small .nav>li>a {
+	padding: 5px 15px;
+}
+
 /* ---- NavBar Form ---- */
 .navbar-form {
 	float:right;
@@ -42,4 +51,28 @@ body {
 .progress.active .bar {
 	font-weight: bold;
 	text-shadow: 0 0 1px black;
+}
+
+.portlet {
+	padding: 0 10px;
+}
+.portlet h2 {
+	font-size: 16px;
+	border-bottom: 1px solid white;
+}
+
+.input-append .input-xxlarge {
+	width:422px;
+}
+.input-append.oneButton .input-xxlarge {
+	width:454px;
+}
+
+.input-xxlarge,
+.input-append.noButton .input-xxlarge  {
+	width:487px;
+	border-radius: 4px;
+}
+.input-append.noButton .btn {
+	display:none;
 }

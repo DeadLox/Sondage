@@ -17,19 +17,9 @@ Form::setPdo($bdd);
 <body>
 	<div class="container">
 		<div class="form">
-			<h1>Accueil Sondage</h1>
-			<?php
-			$listForm = Form::getLastForm(10);
-			if (sizeof($listForm) > 0) { ?>
-				<ul>
-					<?php
-					foreach ($listForm as $key => $form) { ?>
-						<li>
-							<a href="form.php?id=<?php echo $form->getId(); ?>"><?php echo $form->getName(); ?></a>
-						</li>
-					<?php } ?>
-				</ul>
-			<?php } ?>
+			<?php include_once 'include/menu.php'; ?>
+			<?php include_once 'include/foreachLastForm.php'; ?>
+			<?php include_once 'include/foreachBestForm.php'; ?>
 		</div>
 	</div>
 </body>

@@ -38,15 +38,11 @@ if (!isset($form) || is_null($form)) {
 <body>
 	<div class="container">
 		<div class="form">
-			<div class="btn-group navbar-form">
-			  <a href="index.php" class="btn btn-mini btn-primary">Retour</a>
-			</div>
+			<?php include_once 'include/menu.php'; ?>
 			<?php include 'include/msg.php'; ?>
-			<?php if (isset($form) && !empty($form)) {
+			<?php if (isset($form) && !empty($form)) { 
 				include_once 'include/formFullDisplay.php';
-			} else { ?>
-				<a class="btn btn-primary" href="index.php">Retour à l'accueil</a>
-			<?php } ?>
+			}  ?>
 		</div>
 	</div>
 </body>

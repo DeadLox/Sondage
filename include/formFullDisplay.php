@@ -28,15 +28,6 @@
 	<?php } ?>
 	</ul>
 	<div>Total: <?php echo $form->getTotal(); ?> votes</div>
-	<!-- Options
-    <div class="btn-group">
-        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Plus <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#">Changer mon vote</a></li>
-          <li><a href="#">Supprimer mon vote</a></li>
-        </ul>
-  	</div>
-		-->
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('.progress .bar').each(function(){
