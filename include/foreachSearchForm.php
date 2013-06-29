@@ -1,7 +1,20 @@
-<div class="portlet form-last">
-	<h2>Les 10 derniers sondages:</h2>
+<?php
+include_once 'pdo.php';
+include_once '../class/Util.class.php';
+include_once '../class/Form.class.php';
+
+Form::setPdo($bdd);
+
+if (isset($_POST) && !empty($_POST)) {
+	extract($_POST);
+}
+?>
+<div class="portlet">
 	<?php
-	$listForm = Form::getLastForm(10);
+	$listForm = Form::getSearchForm($textSearch);
+	?>
+	<h2>Recherche (<?php echo sizeof($listForm); ?>):</h2>
+	<?php
 	if (sizeof($listForm) > 0) { ?>
 		<ol>
 			<?php
@@ -13,5 +26,9 @@
 				</li>
 			<?php } ?>
 		</ol>
+	<?php } else { ?>
+		<ul>
+			<li>Aucun sondage trouvé.</li>
+		</ul>
 	<?php } ?>
 </div>

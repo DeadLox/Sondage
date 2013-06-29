@@ -37,12 +37,15 @@ if (!isset($form) || is_null($form)) {
 </head>
 <body>
 	<div class="container">
-		<div class="form">
-			<?php include_once 'include/menu.php'; ?>
-			<?php include 'include/msg.php'; ?>
-			<?php if (isset($form) && !empty($form)) { 
-				include_once 'include/formFullDisplay.php';
-			}  ?>
+		<?php include_once 'include/title.php'; ?>
+		<div class="flip-container">
+			<div class="form form-sondage">
+				<?php include_once 'include/menu.php'; ?>
+				<?php include 'include/msg.php'; ?>
+				<?php if (isset($form) && !empty($form)) { 
+					include_once 'include/formFullDisplay.php';
+				}  ?>
+			</div>
 		</div>
 	</div>
 </body>

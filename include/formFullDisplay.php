@@ -3,7 +3,7 @@
 <!-- Formulaire -->
 <?php if (!$form->checkAlreadySubmit()) { ?>
 	<form method="POST" action="">
-		<ul>
+		<ol class="proposition">
 		<?php foreach ($form->getListeProposition() as $key => $proposition) { ?>
 			<li>
 				<label for="<?php echo $proposition['id']; ?>">
@@ -12,21 +12,21 @@
 				</label>
 			</li>
 		<?php } ?>
-		</ul>
+		</ol>
 		<input type="hidden" name="id_form" value="<?php echo $form->getId(); ?>">
 		<input class="btn" type="submit" value="Répondre" />
 	</form>
 <?php } else { ?>
-	<ul>
+	<ol class="proposition">
 	<?php foreach ($form->getListeProposition() as $key => $proposition) { ?>
 		<li>
 			<label><?php echo $proposition['titre']; ?></label>
 		    <div class="progress progress-striped active">
-		    	<div class="bar" data-width="<?php echo $form->getPropositionPercent($proposition['nbReponse']); ?>"><?php echo ($proposition['nbReponse'] > 0)? $proposition['nbReponse'] : "" ; ?></div>
+		    	<div class="bar" data-width="<?php echo $form->getPropositionPercent($proposition['nbReponse']); ?>"><?php echo ($proposition['nbReponse'] > 0)? $form->getPropositionPercent($proposition['nbReponse']).'% ('.$proposition['nbReponse'].')' : "" ; ?></div>
 		    </div>
 		</li>
 	<?php } ?>
-	</ul>
+	</ol>
 	<div>Total: <?php echo $form->getTotal(); ?> votes</div>
 		<script type="text/javascript">
 			$(document).ready(function(){
